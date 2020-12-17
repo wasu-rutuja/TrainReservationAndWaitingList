@@ -1,0 +1,825 @@
+#include<iostream>
+using namespace std ;
+
+class Passenger//class Passenger
+{
+public:
+string name ;
+int age ;
+char gender ;
+
+friend class Queue ;//friend class Queue
+Passenger()
+{
+name = "" ;
+age = 0 ;
+gender = '\0' ;
+}
+void add() ;
+void display() ;
+bool canceltkt(string s) ;
+};
+class Queue//class Queue
+{
+//instance variables
+Passenger wait[10] ;
+int front ;
+int rear ;
+public:
+Queue()//default constructor
+{
+front = 0 ;
+rear = -1 ;
+}
+//functions
+int isfull() ;
+int isempty() ;
+void enque() ;
+Passenger deque() ;
+void displaywait() ;
+};
+
+void Passenger::add()////function defination of add
+{
+cout<<"-------------------------------------------------------------------"<<endl;
+cout<<"Enter your name: ";
+cin>>name;
+cout<<"Enter your gender: ";
+cin>>gender;
+cout<<"Enter your age: ";
+cin>>age;
+cout<<"-------------------------------------------------------------------"<<endl;
+
+}
+
+void Passenger::display()//function defination of display
+{
+cout<<"-------------------------------------------------------------------"<<endl;
+cout<<"Name: "<<name<<endl;
+cout<<"Age: "<<age<<endl;
+cout<<"Gender: "<<gender<<endl;
+cout<<"-------------------------------------------------------------------"<<endl;
+}
+
+bool Passenger::canceltkt(string s)//function defination of canceltkt
+{
+bool flag = false ;
+if(s == name)
+{
+cout<<"Your ticket is cancelled"<<endl ;
+flag = true ;
+}
+return flag ;
+}
+int Queue::isfull()//function defination of isfull
+{
+if(rear == 9)
+{
+return 1 ;
+}
+else
+{
+return 0 ;
+}
+}
+
+int Queue::isempty()//function defination of isempty
+{
+if(front == (rear + 1))
+{
+return 1 ;
+}
+
+else
+{
+return 0 ;
+}
+}
+
+void Queue::enque()//function defination of enque
+{
+if(isfull() == 0)
+{
+cout<<"-------------------------------------------------------------------"<<endl;
+cout<<endl;
+cout<<"You are being put to waiting list"<<endl;
+cout<<endl;
+rear ++ ;
+wait[rear].add() ;//adding to waiting list
+}
+else
+{
+cout<<endl;
+cout<<"No further reservations are possible...."<<endl;
+cout<<endl;
+}
+}
+Passenger Queue::deque()//function defination of deque
+{
+Passenger a ;
+if(isempty() == 1)
+{
+cout<<"No passengers in waiting list......"<<endl;
+}
+else
+{
+a = wait[front] ;//deleting from waiting list
+front ++ ;
+}
+return a ;
+}
+void Queue::displaywait()
+{
+if(isempty()==1)
+{
+cout<<" No Registrations"<<endl ;
+}
+else
+{
+for(int i = front ; i <= rear ; i++)
+{
+wait[i].display() ;//display
+}
+}
+}
+int main()
+{
+Passenger h[5] ;
+Queue f ;
+int pos=0;
+string s;
+Passenger m;
+int cnt = 0  ;
+int ch ;
+do
+{
+//display menu
+cout<<endl;
+cout<<"WELCOME TO SURAT EXPRESS"<<endl;
+cout<<"MENU  : "<<endl;
+cout<<"\n" ;
+cout<<"1.Book Ticket"<<endl;
+cout<<"2.Cancel Ticket"<<endl;
+cout<<"3.Confirm Ticket List"<<endl ;
+cout<<"4.Waiting list"<<endl ;
+cout<<"0.EXIT"<<endl;
+cout<<endl;
+cout<<"Enter your choice: ";
+cin>>ch;
+switch(ch)
+{
+case 1:
+if(cnt < 5)
+{
+cout<<"\n";
+cout<<"Passenger No. :"<<cnt+1<<endl ;
+h[cnt].add() ;
+cout<<"Your Ticket is confirmed"<<endl ;
+cnt++ ;
+}
+else
+{
+f.enque() ;//calling enque to add passengers in waiting list
+}
+break ;
+case 2:
+
+cout<<"Enter name of the passenger: ";
+cin>>s;
+for(int i=0;i<5;i++)
+{
+if(h[i].canceltkt(s)==true)//canceling ticket
+{
+pos = i;
+break;
+}
+}
+cout<<"\n" ;
+m = f.deque();//calling deque to delete passenger from waiting list
+//inserting the passenger in confirmed ticket list
+h[pos].name = m.name;
+h[pos].gender = m.gender;
+h[pos].age = m.age;
+break ;
+case 3 :
+cout<<"CONFIRM RESERVATIONS: "<<endl;
+cout<<endl;
+for(int j=0;j<5;j++)
+{
+h[j].display();//display confirmed list
+}
+cout<<endl;
+break ;
+case 4:
+cout<<"WAITING LIST: "<<endl;
+f.displaywait();//display waiting list
+
+
+break;
+case 0:
+cout<<"Thank you !!"<<endl ;
+break ;
+default:
+cout<<"Invalid choice"<<endl ;
+break ;
+
+}
+
+}while(ch != 0) ;
+
+}
+/**WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+
+Passenger No. :1
+-------------------------------------------------------------------
+Enter your name: a
+Enter your gender: f
+Enter your age: 18
+-------------------------------------------------------------------
+Your Ticket is confirmed
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+
+Passenger No. :2
+-------------------------------------------------------------------
+Enter your name: r
+Enter your gender: f
+Enter your age: 3
+-------------------------------------------------------------------
+Your Ticket is confirmed
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+
+Passenger No. :3
+-------------------------------------------------------------------
+Enter your name: c
+Enter your gender: g
+Enter your age: 44
+-------------------------------------------------------------------
+Your Ticket is confirmed
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+
+Passenger No. :4
+-------------------------------------------------------------------
+Enter your name: f
+Enter your gender: m
+Enter your age: 6
+-------------------------------------------------------------------
+Your Ticket is confirmed
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+
+Passenger No. :5
+-------------------------------------------------------------------
+Enter your name: w
+Enter your gender: m
+Enter your age: 40
+-------------------------------------------------------------------
+Your Ticket is confirmed
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+-------------------------------------------------------------------
+
+You are being put to waiting list
+
+-------------------------------------------------------------------
+Enter your name: s
+Enter your gender: m
+Enter your age: 20
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+-------------------------------------------------------------------
+
+You are being put to waiting list
+
+-------------------------------------------------------------------
+Enter your name: v
+Enter your gender: m
+Enter your age: 56
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+-------------------------------------------------------------------
+
+You are being put to waiting list
+
+-------------------------------------------------------------------
+Enter your name: aaa
+Enter your gender: f
+Enter your age: 32
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+-------------------------------------------------------------------
+
+You are being put to waiting list
+
+-------------------------------------------------------------------
+Enter your name: vidhi
+Enter your gender: f
+Enter your age: 18
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+-------------------------------------------------------------------
+
+You are being put to waiting list
+
+-------------------------------------------------------------------
+Enter your name: aanchal
+Enter your gender: f
+Enter your age: 18
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+-------------------------------------------------------------------
+
+You are being put to waiting list
+
+-------------------------------------------------------------------
+Enter your name: vdfw
+Enter your gender: m
+Enter your age: 2
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+-------------------------------------------------------------------
+
+You are being put to waiting list
+
+-------------------------------------------------------------------
+Enter your name: dd
+Enter your gender: m
+Enter your age: 65
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+-------------------------------------------------------------------
+
+You are being put to waiting list
+
+-------------------------------------------------------------------
+Enter your name: aaaaaa
+Enter your gender: f
+Enter your age: 55
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+-------------------------------------------------------------------
+
+You are being put to waiting list
+
+-------------------------------------------------------------------
+Enter your name: d
+Enter your gender: m
+Enter your age: 44
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+-------------------------------------------------------------------
+
+You are being put to waiting list
+
+-------------------------------------------------------------------
+Enter your name: fdfd
+Enter your gender: m
+Enter your age: 22
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+
+No further reservations are possible....
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 1
+
+No further reservations are possible....
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 3
+CONFIRM RESERVATIONS:
+
+-------------------------------------------------------------------
+Name: a
+Age: 18
+Gender: f
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: r
+Age: 3
+Gender: f
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: c
+Age: 44
+Gender: g
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: f
+Age: 6
+Gender: m
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: w
+Age: 40
+Gender: m
+-------------------------------------------------------------------
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 4
+WAITING LIST:
+-------------------------------------------------------------------
+Name: s
+Age: 20
+Gender: m
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: v
+Age: 56
+Gender: m
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: aaa
+Age: 32
+Gender: f
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: vidhi
+Age: 18
+Gender: f
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: aanchal
+Age: 18
+Gender: f
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: vdfw
+Age: 2
+Gender: m
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: dd
+Age: 65
+Gender: m
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: aaaaaa
+Age: 55
+Gender: f
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: d
+Age: 44
+Gender: m
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Name: fdfd
+Age: 22
+Gender: m
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 2
+Enter name of the passenger: fdfd
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 2
+Enter name of the passenger: d
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 2
+Enter name of the passenger: aaaaaa
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 2
+Enter name of the passenger: dd
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 2
+Enter name of the passenger: vdfw
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 2
+Enter name of the passenger: vidhi
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 2
+Enter name of the passenger: v
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 2
+Enter name of the passenger: aaa
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 2
+Enter name of the passenger: aanchal
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 4
+WAITING LIST:
+-------------------------------------------------------------------
+Name: fdfd
+Age: 22
+Gender: m
+-------------------------------------------------------------------
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 2
+Enter name of the passenger: fdfd
+
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 4
+WAITING LIST:
+ No Registrations
+
+WELCOME TO SURAT EXPRESS
+MENU  :
+
+1.Book Ticket
+2.Cancel Ticket
+3.Confirm Ticket List
+4.Waiting list
+0.EXIT
+
+Enter your choice: 0
+Thank you !!*/
